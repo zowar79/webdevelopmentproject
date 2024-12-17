@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation | ZK Intercontinental Hotel</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        // Function to calculate total price based on room type and nights
+        function calculateInvoice() {
+            // Retrieve form values
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var checkinDate = new Date(document.getElementById("checkin").value);
+            var checkoutDate = new Date(document.getElementById("checkout").value);
+            var roomType = document.getElementById("room").value;
+
+            // Calculate number of nights
+            var nights = (checkoutDate - checkinDate) / (1000 * 3600 * 24); 
+
+            if (nights < 1) {
+                alert("Check-out date must be after check-in date.");
+                return;
+            }
+
+            // Room price details
+            var prices = {
+                "single": 100,
+                "double": 150,
+                "suite": 250
+            };
+            
+            // Calculate total cost
+            var roomPrice = prices[roomType];
+            var totalCost = roomPrice * nights;
+
+            // Display the invoice
+            document.getElementById("invoice-section").style.display = "block";
+            document.getElementById("guest-name").textContent = name;
+            document.getElementById("guest-email").textContent = email;
+            document.getElementById("checkin-date").textContent = checkinDate.toDateString();
+            document.getElementById("checkout-date").textContent = checkoutDate.toDateString();
+            document.getElementById("room-type").textContent = roomType.charAt(0).toUpperCase() + roomType.slice(1) + " Room";
+            document.getElementById("nights").textContent = nights;
+            document.getElementById("total-cost").textContent = "$" + totalCost.toFixed(2);
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="reservation.html">Reservation</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Reservation Form Section -->
+    <section class="reservation-form">
+        <h1>Make a Reservation</h1>
+        <form id="reservation-form" onsubmit="event.preventDefault(); calculateInvoice();">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="checkin">Check-in Date:</label>
+            <input type="date" id="checkin" name="checkin" required>
+
+            <label for="checkout">Check-out Date:</label>
+            <input type="date" id="checkout" name="checkout" required>
+
+            <label for="room">Room Type:</label>
+            <select id="room" name="room" required>
+                <option value="single">Single Room</option>
+                <option value="double">Double Room</option>
+                <option value="suite">Suite</option>
+            </select>
+
+            <button type="submit" class="btn">Reserve Now</button>
+        </form>
+    </section>
+
+    <!-- Invoice Section -->
+    <section id="invoice-section" style="display:none; background-color: white; padding: 20px; margin-top: 40px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h2>Invoice</h2>
+        <p><strong>Guest Name:</strong> <span id="guest-name"></span></p>
+        <p><strong>Email Address:</strong> <span id="guest-email"></span></p>
+        <p><strong>Check-in Date:</strong> <span id="checkin-date"></span></p>
+        <p><strong>Check-out Date:</strong> <span id="checkout-date"></span></p>
+        <p><strong>Room Type:</strong> <span id="room-type"></span></p>
+        <p><strong>Number of Nights:</strong> <span id="nights"></span></p>
+        <p><strong>Total Cost:</strong> <span id="total-cost"></span></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 ZK Intercontinental Hotel</p>
+    </footer>
+
+</body>
+</html>
